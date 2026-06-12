@@ -14,6 +14,8 @@ $deployDir = Join-Path $env:TEMP "weevent-gh-pages-$(Get-Random)"
 if (Test-Path $deployDir) { Remove-Item $deployDir -Recurse -Force }
 New-Item -ItemType Directory -Path $deployDir | Out-Null
 Copy-Item -Path "$dist\*" -Destination $deployDir -Recurse -Force
+# GitHub Pages runs Jekyll by default and skips _astro/ without this file
+New-Item -ItemType File -Path (Join-Path $deployDir ".nojekyll") -Force | Out-Null
 
 Set-Location $deployDir
 git init -b gh-pages

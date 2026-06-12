@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '../lib/types';
-import { t, pathFor, assetUrl, alternateLang } from '../lib/i18n';
+import { t, pathFor, assetUrl, alternateLang, switchPath } from '../lib/i18n';
 
 interface Props {
   lang: Lang;
@@ -10,8 +10,7 @@ interface Props {
 const { lang, currentPage } = Astro.props;
 const content = t(lang);
 const other = alternateLang(lang);
-const currentPath = Astro.url.pathname;
-const switchHref = currentPath.replace(`/${lang}/`, `/${other}/`).replace(`/${lang}`, `/${other}`) || `/${other}/`;
+const switchHref = switchPath(lang, Astro.url.pathname) || pathFor(other);
 ---
 
 <header class="site-header">
