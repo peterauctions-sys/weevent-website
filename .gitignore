@@ -7,3 +7,4 @@ deploy/config.env
 deploy/release.tar.gz
 deploy/.vultr-key
 **/.vultr-key
+.gh-pages-deploy/

@@ -10,7 +10,7 @@ $env:SITE_URL = "https://peterauctions-sys.github.io/weevent-website"
 npm run build
 
 $dist = Join-Path $ProjectRoot "dist"
-$deployDir = Join-Path $ProjectRoot ".gh-pages-deploy"
+$deployDir = Join-Path $env:TEMP "weevent-gh-pages-$(Get-Random)"
 if (Test-Path $deployDir) { Remove-Item $deployDir -Recurse -Force }
 New-Item -ItemType Directory -Path $deployDir | Out-Null
 Copy-Item -Path "$dist\*" -Destination $deployDir -Recurse -Force
