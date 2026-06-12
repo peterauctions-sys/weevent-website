@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLang, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = getLang(Astro.params.lang);
+const c = t(lang);
+---
+
+<BaseLayout lang={lang} title={c.about.metaTitle} currentPage="about">
+  <div class="page-hero">
+    <div class="container">
+      <h1>{c.about.title}</h1>
+      <p>{c.about.intro}</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.about.pillarsTitle}</h2>
+      </div>
+      <div class="stats" style="padding:0; background:transparent;">
+        {
+          c.about.pillars.map((p) => (
+            <div class="stat">
+              <div class="stat-value">{p.value}</div>
+              <div class="stat-label">{p.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--cream);">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.about.networkTitle}</h2>
+        <p>{c.about.network}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.about.teamTitle}</h2>
+      </div>
+      <div class="team-grid">
+        {
+          c.about.team.map((member) => (
+            <article class="team-card">
+              <h3>{member.name}</h3>
+              <p class="team-role">{member.role}</p>
+              <p>{member.bio}</p>
+              {member.email && (
+                <p>
+                  <a href={`mailto:${member.email}`}>{member.email}</a>
+                </p>
+              )}
+              {member.phone && <p>{member.phone}</p>}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

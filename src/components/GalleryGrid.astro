@@ -1,0 +1,71 @@
+---
+interface Props {
+  images: string[];
+  altPrefix: string;
+}
+
+const { images, altPrefix } = Astro.props;
+---
+
+<div class="gallery-grid" data-gallery>
+  {
+    images.map((src, i) => (
+      <button type="button" class="gallery-item" data-src={src} data-index={i} aria-label={`${altPrefix} ${i + 1}`}>
+        <img src={src} alt={`${altPrefix} ${i + 1}`} loading="lazy" decoding="async" />
+      </button>
+    ))
+  }
+</div>
+
+<dialog class="lightbox" id="gallery-lightbox" aria-label="Image preview">
+  <button type="button" class="lightbox-close" data-close aria-label="Close">×</button>
+  <button type="button" class="lightbox-nav lightbox-prev" data-prev aria-label="Previous">‹</button>
+  <figure class="lightbox-figure">
+    <img src="" alt="" id="lightbox-img" />
+  </figure>
+  <button type="button" class="lightbox-nav lightbox-next" data-next aria-label="Next">›</button>
+  <p class="lightbox-counter" id="lightbox-counter"></p>
+</dialog>
+
+<script>
+  function initGallery() {
+    const grid = document.querySelector('[data-gallery]');
+    const dialog = document.getElementById('gallery-lightbox') as HTMLDialogElement | null;
+    const img = document.getElementById('lightbox-img') as HTMLImageElement | null;
+    const counter = document.getElementById('lightbox-counter');
+    if (!grid || !dialog || !img || !counter) return;
+
+    const items = [...grid.querySelectorAll<HTMLButtonElement>('.gallery-item')];
+    const sources = items.map((el) => el.dataset.src || '');
+    let index = 0;
+
+    function show(i: number) {
+      index = (i + sources.length) % sources.length;
+      img.src = sources[index];
+      img.alt = items[index]?.querySelector('img')?.alt || '';
+      counter.textContent = `${index + 1} / ${sources.length}`;
+    }
+
+    items.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        show(i);
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-prev]')?.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('[data-next]')?.addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+      if (e.key === 'Escape') dialog.close();
+    });
+  }
+
+  initGallery();
+  document.addEventListener('astro:page-load', initGallery);
+</script>

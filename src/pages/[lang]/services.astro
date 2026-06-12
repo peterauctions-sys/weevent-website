@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLang, t } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = getLang(Astro.params.lang);
+const c = t(lang);
+---
+
+<BaseLayout lang={lang} title={c.services.metaTitle} currentPage="services">
+  <div class="page-hero">
+    <div class="container">
+      <h1>{c.services.title}</h1>
+      <p>{c.services.intro}</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container cards cols-2">
+      {
+        c.services.list.map((svc) => (
+          <article class="card">
+            <h3>{svc.title}</h3>
+            <p>{svc.body}</p>
+            <ul style="margin:1rem 0 0; padding-left:1.2rem; color: var(--muted);">
+              {svc.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--cream);">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.services.modularTitle}</h2>
+        <p>{c.services.modularIntro}</p>
+      </div>
+      <div class="cards cols-4">
+        {
+          c.services.modularBenefits.map((b) => (
+            <article class="card">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+import type { Lang } from '../lib/types';
+import { t, pathFor, alternateLang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  currentPage: string;
+}
+
+const { lang, currentPage } = Astro.props;
+const content = t(lang);
+const other = alternateLang(lang);
+const currentPath = Astro.url.pathname;
+const switchHref = currentPath.replace(`/${lang}/`, `/${other}/`).replace(`/${lang}`, `/${other}`) || `/${other}/`;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={pathFor(lang)} class="logo-link" aria-label={content.siteName}>
+      <img src="/logo.svg" alt="WE Displays" width="545" height="301" decoding="async" />
+    </a>
+
+    <nav class="nav-desktop" aria-label="Main">
+      {
+        content.nav.map((item) => {
+          const href = pathFor(lang, item.href);
+          const isActive = item.href === currentPage || (item.href === '' && currentPage === '');
+          return (
+            <a href={href} class:list={{ active: isActive }}>
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="header-actions">
+      <a href={switchHref} class="lang-btn" hreflang={other} lang={other}>
+        {content.langSwitch.label}
+      </a>
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Menu"
+      >
+        ☰
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" class="mobile-nav container" aria-label="Mobile">
+    {
+      content.nav.map((item) => (
+        <a href={pathFor(lang, item.href)}>{item.label}</a>
+      ))
+    }
+    <a href={switchHref}>{content.langSwitch.label}</a>
+  </nav>
+</header>

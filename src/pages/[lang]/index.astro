@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLang, t, pathFor } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = getLang(Astro.params.lang);
+const c = t(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={c.home.metaTitle}
+  description={c.home.metaDescription}
+  currentPage=""
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="hero-eyebrow">{c.siteName}</p>
+        <h1>
+          {c.home.heroTitle}
+          <span>{c.home.heroHighlight}</span>
+        </h1>
+        <p class="hero-lead">{c.home.heroSubtitle}</p>
+        <div class="hero-actions">
+          <a href={pathFor(lang, 'contact')} class="btn btn-primary">{c.home.heroCta}</a>
+          <a href={pathFor(lang, 'gallery')} class="btn btn-outline">{c.home.heroSecondary}</a>
+        </div>
+      </div>
+      <div class="hero-card hero-card-visual">
+        <img src="/images/hero-banner.jpg" alt="WE Displays exhibition stand" width="600" height="400" />
+        <p style="margin:0.75rem 0 0; font-weight:700; color: var(--gold);">{c.tagline}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats container" style="margin-top:0;">
+    {
+      c.home.stats.map((s) => (
+        <div class="stat">
+          <div class="stat-value">{s.value}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.home.servicesTitle}</h2>
+        <p>{c.home.servicesSubtitle}</p>
+      </div>
+      <div class="cards cols-4">
+        {
+          c.home.services.map((s) => (
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">{s.icon}</div>
+              <h3>{s.title}</h3>
+              <p>{s.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--cream);">
+    <div class="container">
+      <div class="section-header">
+        <h2>{c.home.whyTitle}</h2>
+      </div>
+      <ul class="why-list">
+        {c.home.whyItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2>{c.home.ctaTitle}</h2>
+      <p>{c.home.ctaText}</p>
+      <a href={pathFor(lang, 'contact')} class="btn btn-primary">{c.home.ctaButton}</a>
+    </div>
+  </section>
+</BaseLayout>

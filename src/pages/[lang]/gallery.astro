@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryGrid from '../../components/GalleryGrid.astro';
+import { getLang, t } from '../../lib/i18n';
+import { getGalleryImages } from '../../lib/gallery';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = getLang(Astro.params.lang);
+const c = t(lang);
+const images = getGalleryImages();
+---
+
+<BaseLayout lang={lang} title={c.gallery.metaTitle} currentPage="gallery">
+  <div class="page-hero">
+    <div class="container">
+      <h1>{c.gallery.title}</h1>
+      <p>{c.gallery.intro}</p>
+      <p class="gallery-note">{c.gallery.note}</p>
+    </div>
+  </div>
+
+  <section class="section gallery-section">
+    <div class="container">
+      {
+        images.length > 0 ? (
+          <GalleryGrid images={images} altPrefix={c.gallery.imageAlt} />
+        ) : (
+          <p>{c.gallery.empty}</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

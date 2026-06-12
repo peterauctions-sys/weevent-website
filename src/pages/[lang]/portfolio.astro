@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLang, t, pathFor } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = getLang(Astro.params.lang);
+const c = t(lang);
+---
+
+<BaseLayout lang={lang} title={c.portfolio.metaTitle} currentPage="portfolio">
+  <div class="page-hero">
+    <div class="container">
+      <h1>{c.portfolio.title}</h1>
+      <p>{c.portfolio.intro}</p>
+      <p style="margin-top:1rem;">
+        <a href={pathFor(lang, 'gallery')} style="font-weight:700;">{c.portfolio.viewGallery}</a>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container case-grid">
+      {
+        c.portfolio.cases.map((item) => (
+          <article class:list={['case-card', { featured: item.featured }]}>
+            {item.image && (
+              <a href={pathFor(lang, 'gallery')} class="case-thumb">
+                <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
+              </a>
+            )}
+            <h3>{item.title}</h3>
+            <p class="case-location">{item.location}</p>
+            <p>{item.summary}</p>
+            <div class="case-tags">
+              {item.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

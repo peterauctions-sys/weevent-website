@@ -1,0 +1,30 @@
+---
+import type { Lang } from '../lib/types';
+import { t, pathFor } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const content = t(lang);
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>{content.footer.brand}</strong>
+      <p>{content.footer.tagline}</p>
+      <p>{content.footer.regions}</p>
+    </div>
+    <div>
+      <p>
+        <a href="https://www.we-events.co.nz" target="_blank" rel="noopener">www.we-events.co.nz</a>
+      </p>
+      <p><a href={pathFor(lang, 'contact')}>{content.nav.find((n) => n.href === 'contact')?.label}</a></p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>{content.footer.rights}</p>
+  </div>
+</footer>

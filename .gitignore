@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+deploy/config.env
+deploy/release.tar.gz
+deploy/.vultr-key
+**/.vultr-key
