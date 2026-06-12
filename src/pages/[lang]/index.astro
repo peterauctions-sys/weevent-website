@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getLang, t, pathFor } from '../../lib/i18n';
+import { getLang, t, pathFor, assetUrl } from '../../lib/i18n';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
@@ -31,7 +31,7 @@ const c = t(lang);
         </div>
       </div>
       <div class="hero-card hero-card-visual">
-        <img src="/images/hero-banner.jpg" alt="WE Displays exhibition stand" width="600" height="400" />
+        <img src={assetUrl('images/hero-banner.jpg')} alt="WE Displays exhibition stand" width="600" height="400" />
         <p style="margin:0.75rem 0 0; font-weight:700; color: var(--gold);">{c.tagline}</p>
       </div>
     </div>

@@ -12,9 +12,19 @@ export function t(lang: Lang): SiteContent {
   return content[lang];
 }
 
+function siteBase(): string {
+  return import.meta.env.BASE_URL || '/';
+}
+
+/** Public asset URL (logo, images) — respects GitHub Pages base path */
+export function assetUrl(path: string): string {
+  const clean = path.replace(/^\//, '');
+  return `${siteBase()}${clean}`;
+}
+
 export function pathFor(lang: Lang, page = ''): string {
-  const base = `/${lang}`;
-  return page ? `${base}/${page}/` : `${base}/`;
+  const langPath = page ? `${lang}/${page}/` : `${lang}/`;
+  return `${siteBase()}${langPath}`;
 }
 
 export function alternateLang(lang: Lang): Lang {

@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '../lib/types';
-import { t, pathFor, alternateLang } from '../lib/i18n';
+import { t, pathFor, assetUrl, alternateLang } from '../lib/i18n';
 
 interface Props {
   lang: Lang;
@@ -17,7 +17,7 @@ const switchHref = currentPath.replace(`/${lang}/`, `/${other}/`).replace(`/${la
 <header class="site-header">
   <div class="container header-inner">
     <a href={pathFor(lang)} class="logo-link" aria-label={content.siteName}>
-      <img src="/logo.svg" alt="WE Displays" width="545" height="301" decoding="async" />
+      <img src={assetUrl('logo.svg')} alt="WE Displays" width="545" height="301" decoding="async" />
     </a>
 
     <nav class="nav-desktop" aria-label="Main">

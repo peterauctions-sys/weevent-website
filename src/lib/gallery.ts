@@ -10,7 +10,10 @@ export function getGalleryImages(): string[] {
     return readdirSync(GALLERY_DIR)
       .filter((name) => IMAGE_RE.test(name))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-      .map((name) => `/images/gallery/${encodeURI(name)}`);
+      .map((name) => {
+        const base = import.meta.env.BASE_URL || '/';
+        return `${base}images/gallery/${encodeURI(name)}`;
+      });
   } catch {
     return [];
   }

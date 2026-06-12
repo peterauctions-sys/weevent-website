@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getLang, t, pathFor } from '../../lib/i18n';
+import { getLang, t, pathFor, assetUrl } from '../../lib/i18n';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
@@ -28,7 +28,7 @@ const c = t(lang);
           <article class:list={['case-card', { featured: item.featured }]}>
             {item.image && (
               <a href={pathFor(lang, 'gallery')} class="case-thumb">
-                <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
+                <img src={assetUrl(item.image)} alt={item.title} loading="lazy" decoding="async" />
               </a>
             )}
             <h3>{item.title}</h3>
