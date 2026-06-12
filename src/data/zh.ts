@@ -250,7 +250,7 @@ export const zh: SiteContent = {
         name: 'Joy Wang',
         role: '客户关系暨执行统筹',
         email: 'joy@we-events.co.nz',
-        phone: '+64 0220 901 902',
+        phone: '0220 901 902',
       },
       {
         name: 'Bill Zhong（仲波）',

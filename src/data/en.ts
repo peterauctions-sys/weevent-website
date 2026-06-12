@@ -292,7 +292,7 @@ export const en: SiteContent = {
         name: 'Joy Wang',
         role: 'Client Relations & Executive Coordination',
         email: 'joy@we-events.co.nz',
-        phone: '+64 0220 901 902',
+        phone: '0220 901 902',
       },
       {
         name: 'Bill Zhong',
