@@ -26,7 +26,8 @@ $repoName = "weevent-website"
 $owner = (gh api user -q .login)
 $remote = "https://github.com/$owner/$repoName.git"
 
-if (-not (git remote get-url origin 2>$null)) {
+$hasOrigin = git remote 2>$null | Select-String -Pattern '^origin$' -Quiet
+if (-not $hasOrigin) {
     Write-Host "Creating GitHub repo $owner/$repoName ..." -ForegroundColor Cyan
     gh repo create $repoName --public --source=. --remote=origin --description "WE Events x WE Displays - bilingual marketing site preview"
 } else {
